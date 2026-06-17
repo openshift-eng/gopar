@@ -2,19 +2,19 @@
   {
     "name": "drop_prow_job_run_test_outputs_old",
     "description": "Drop the old non-partitioned prow_job_run_test_outputs table and its sequence left over from the partition swap",
-    "concurrent": false,
-    "query": "DROP TABLE IF EXISTS prow_job_run_test_outputs_old CASCADE; DROP SEQUENCE IF EXISTS prow_job_run_test_outputs_old_id_seq;"
+    "concurrent": true,
+    "query": "DROP TABLE IF EXISTS prow_job_run_test_outputs_old; DROP SEQUENCE IF EXISTS prow_job_run_test_outputs_old_id_seq;"
   },
   {
     "name": "drop_prow_job_run_tests_old",
     "description": "Drop the old non-partitioned prow_job_run_tests table and its sequence left over from the partition swap",
-    "concurrent": false,
-    "query": "DROP TABLE IF EXISTS prow_job_run_tests_old CASCADE; DROP SEQUENCE IF EXISTS prow_job_run_tests_old_id_seq;"
+    "concurrent": true,
+    "query": "DROP TABLE IF EXISTS prow_job_run_tests_old; DROP SEQUENCE IF EXISTS prow_job_run_tests_old_id_seq;"
   },
   {
     "name": "drop_test_analysis_by_job_by_dates_old",
     "description": "Drop the old non-partitioned test_analysis_by_job_by_dates table left over from the partition swap",
-    "concurrent": false,
-    "query": "DROP TABLE IF EXISTS test_analysis_by_job_by_dates_old CASCADE;"
+    "concurrent": true,
+    "query": "DROP TABLE IF EXISTS test_analysis_by_job_by_dates_old;"
   }
 ]
