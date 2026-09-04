@@ -1,23 +1,23 @@
 [
   {
     "name": "validate_prow_job_runs_counts",
-    "description": "Compare prow_job_runs row counts per day for last 14 days between original and _new table. Returns only mismatches.",
+    "description": "Compare prow_job_runs row counts per day for last 120 days between original and _new table. Returns only mismatches.",
     "concurrent": true,
     "resultType": "query",
-    "query": "SELECT COALESCE(o.day, n.day) AS day, COALESCE(o.cnt, 0) AS original_count, COALESCE(n.cnt, 0) AS new_count, COALESCE(o.cnt, 0) - COALESCE(n.cnt, 0) AS diff FROM (SELECT DATE(timestamp) AS day, COUNT(*) AS cnt FROM prow_job_runs WHERE timestamp >= NOW() - INTERVAL '14 days' GROUP BY 1) o FULL OUTER JOIN (SELECT DATE(timestamp) AS day, COUNT(*) AS cnt FROM prow_job_runs_new WHERE timestamp >= NOW() - INTERVAL '14 days' GROUP BY 1) n ON o.day = n.day WHERE COALESCE(o.cnt, 0) != COALESCE(n.cnt, 0) ORDER BY 1"
+    "query": "SELECT COALESCE(o.day, n.day) AS day, COALESCE(o.cnt, 0) AS original_count, COALESCE(n.cnt, 0) AS new_count, COALESCE(o.cnt, 0) - COALESCE(n.cnt, 0) AS diff FROM (SELECT DATE(timestamp) AS day, COUNT(*) AS cnt FROM prow_job_runs WHERE timestamp >= NOW() - INTERVAL '120 days' GROUP BY 1) o FULL OUTER JOIN (SELECT DATE(timestamp) AS day, COUNT(*) AS cnt FROM prow_job_runs_new WHERE timestamp >= NOW() - INTERVAL '120 days' GROUP BY 1) n ON o.day = n.day WHERE COALESCE(o.cnt, 0) != COALESCE(n.cnt, 0) ORDER BY 1"
   },
   {
     "name": "validate_prow_job_run_annotations_counts",
-    "description": "Compare prow_job_run_annotations row counts per day for last 14 days between original and _new table. Returns only mismatches.",
+    "description": "Compare prow_job_run_annotations row counts per day for last 120 days between original and _new table. Returns only mismatches.",
     "concurrent": true,
     "resultType": "query",
-    "query": "SELECT COALESCE(o.day, n.day) AS day, COALESCE(o.cnt, 0) AS original_count, COALESCE(n.cnt, 0) AS new_count, COALESCE(o.cnt, 0) - COALESCE(n.cnt, 0) AS diff FROM (SELECT DATE(prow_job_run_timestamp) AS day, COUNT(*) AS cnt FROM prow_job_run_annotations WHERE prow_job_run_timestamp >= NOW() - INTERVAL '14 days' GROUP BY 1) o FULL OUTER JOIN (SELECT DATE(prow_job_run_timestamp) AS day, COUNT(*) AS cnt FROM prow_job_run_annotations_new WHERE prow_job_run_timestamp >= NOW() - INTERVAL '14 days' GROUP BY 1) n ON o.day = n.day WHERE COALESCE(o.cnt, 0) != COALESCE(n.cnt, 0) ORDER BY 1"
+    "query": "SELECT COALESCE(o.day, n.day) AS day, COALESCE(o.cnt, 0) AS original_count, COALESCE(n.cnt, 0) AS new_count, COALESCE(o.cnt, 0) - COALESCE(n.cnt, 0) AS diff FROM (SELECT DATE(prow_job_run_timestamp) AS day, COUNT(*) AS cnt FROM prow_job_run_annotations WHERE prow_job_run_timestamp >= NOW() - INTERVAL '120 days' GROUP BY 1) o FULL OUTER JOIN (SELECT DATE(prow_job_run_timestamp) AS day, COUNT(*) AS cnt FROM prow_job_run_annotations_new WHERE prow_job_run_timestamp >= NOW() - INTERVAL '120 days' GROUP BY 1) n ON o.day = n.day WHERE COALESCE(o.cnt, 0) != COALESCE(n.cnt, 0) ORDER BY 1"
   },
   {
     "name": "validate_prow_job_run_prow_pull_requests_counts",
-    "description": "Compare prow_job_run_prow_pull_requests row counts per day for last 14 days between original and _new table. Returns only mismatches.",
+    "description": "Compare prow_job_run_prow_pull_requests row counts per day for last 120 days between original and _new table. Returns only mismatches.",
     "concurrent": true,
     "resultType": "query",
-    "query": "SELECT COALESCE(o.day, n.day) AS day, COALESCE(o.cnt, 0) AS original_count, COALESCE(n.cnt, 0) AS new_count, COALESCE(o.cnt, 0) - COALESCE(n.cnt, 0) AS diff FROM (SELECT DATE(prow_job_run_timestamp) AS day, COUNT(*) AS cnt FROM prow_job_run_prow_pull_requests WHERE prow_job_run_timestamp >= NOW() - INTERVAL '14 days' GROUP BY 1) o FULL OUTER JOIN (SELECT DATE(prow_job_run_timestamp) AS day, COUNT(*) AS cnt FROM prow_job_run_prow_pull_requests_new WHERE prow_job_run_timestamp >= NOW() - INTERVAL '14 days' GROUP BY 1) n ON o.day = n.day WHERE COALESCE(o.cnt, 0) != COALESCE(n.cnt, 0) ORDER BY 1"
+    "query": "SELECT COALESCE(o.day, n.day) AS day, COALESCE(o.cnt, 0) AS original_count, COALESCE(n.cnt, 0) AS new_count, COALESCE(o.cnt, 0) - COALESCE(n.cnt, 0) AS diff FROM (SELECT DATE(prow_job_run_timestamp) AS day, COUNT(*) AS cnt FROM prow_job_run_prow_pull_requests WHERE prow_job_run_timestamp >= NOW() - INTERVAL '120 days' GROUP BY 1) o FULL OUTER JOIN (SELECT DATE(prow_job_run_timestamp) AS day, COUNT(*) AS cnt FROM prow_job_run_prow_pull_requests_new WHERE prow_job_run_timestamp >= NOW() - INTERVAL '120 days' GROUP BY 1) n ON o.day = n.day WHERE COALESCE(o.cnt, 0) != COALESCE(n.cnt, 0) ORDER BY 1"
   }
 ]

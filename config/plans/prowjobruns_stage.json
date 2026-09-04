@@ -19,7 +19,7 @@
       "table": "prow_job_runs_new",
       "releases_from": "releases",
       "date_column": "timestamp",
-      "start_date": {"relative": "-100d"},
+      "start_date": {"relative": "-120d"},
       "end_date": {"relative": "+2d"},
       "use_partman_format": true
     },
@@ -29,7 +29,7 @@
       "table": "prow_job_run_annotations_new",
       "releases_from": "releases",
       "date_column": "prow_job_run_timestamp",
-      "start_date": {"relative": "-100d"},
+      "start_date": {"relative": "-120d"},
       "end_date": {"relative": "+2d"},
       "use_partman_format": true
     },
@@ -39,7 +39,7 @@
       "table": "prow_job_run_prow_pull_requests_new",
       "releases_from": "releases",
       "date_column": "prow_job_run_timestamp",
-      "start_date": {"relative": "-100d"},
+      "start_date": {"relative": "-120d"},
       "end_date": {"relative": "+2d"},
       "use_partman_format": true
     },
