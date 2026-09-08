@@ -1,0 +1,14 @@
+[
+  {
+    "name": "schema_cleanup",
+    "description": "Drop legacy materialized views and remove their schema hash records",
+    "concurrent": true,
+    "query": "BEGIN; DROP MATERIALIZED VIEW IF EXISTS payload_test_failures_14d_matview; DROP MATERIALIZED VIEW IF EXISTS prow_job_runs_report_matview; DROP MATERIALIZED VIEW IF EXISTS prow_ga_test_statuses_matview; DROP MATERIALIZED VIEW IF EXISTS prow_job_failed_tests_by_day_matview; DROP MATERIALIZED VIEW IF EXISTS prow_job_failed_tests_by_hour_matview; DELETE FROM schema_hashes WHERE type IN ('matview', 'matview_index') AND (name IN ('payload_test_failures_14d_matview', 'prow_job_runs_report_matview', 'prow_ga_test_statuses_matview', 'prow_job_failed_tests_by_day_matview', 'prow_job_failed_tests_by_hour_matview') OR name IN ('idx_payload_test_failures_14d_matview', 'idx_prow_job_runs_report_matview', 'idx_prow_job_runs_report_matview_0', 'idx_prow_ga_test_statuses_matview', 'idx_prow_job_failed_tests_by_day_matview', 'idx_prow_job_failed_tests_by_hour_matview')); COMMIT;"
+  },
+  {
+    "name": "drop_orphaned_test_analysis_by_job_partitions",
+    "description": "Drop standalone test_analysis_by_job partitions left behind after their parent table was deleted",
+    "concurrent": false,
+    "query": "DO $$ DECLARE partition_record record; BEGIN FOR partition_record IN SELECT n.nspname AS schema_name, c.relname AS table_name FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace WHERE n.nspname = 'public' AND c.relkind = 'r' AND NOT c.relispartition AND c.relname ~ '^test_analysis_by_job_80ee_paro_classic_(integration|production)_p[0-9]{4}_[0-9]{2}_[0-9]{2}$' AND NOT EXISTS (SELECT 1 FROM pg_inherits i WHERE i.inhrelid = c.oid) ORDER BY c.relname LOOP EXECUTE format('DROP TABLE %I.%I', partition_record.schema_name, partition_record.table_name); END LOOP; END $$;"
+  }
+]

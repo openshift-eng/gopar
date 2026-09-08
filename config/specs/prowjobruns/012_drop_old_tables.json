@@ -3,18 +3,18 @@
     "name": "drop_prow_job_runs_old",
     "description": "Drop the old non-partitioned prow_job_runs table and its sequence left over from the partition swap",
     "concurrent": true,
-    "query": "DROP TABLE IF EXISTS prow_job_runs_old CASCADE; DROP SEQUENCE IF EXISTS prow_job_runs_old_id_seq;"
+    "query": "DROP TABLE IF EXISTS prow_job_runs_old; DROP SEQUENCE IF EXISTS prow_job_runs_old_id_seq;"
   },
   {
     "name": "drop_prow_job_run_annotations_old",
     "description": "Drop the old non-partitioned prow_job_run_annotations table and its sequence left over from the partition swap",
     "concurrent": true,
-    "query": "DROP TABLE IF EXISTS prow_job_run_annotations_old CASCADE; DROP SEQUENCE IF EXISTS prow_job_run_annotations_old_id_seq;"
+    "query": "DROP TABLE IF EXISTS prow_job_run_annotations_old; DROP SEQUENCE IF EXISTS prow_job_run_annotations_old_id_seq;"
   },
   {
     "name": "drop_prow_job_run_prow_pull_requests_old",
     "description": "Drop the old non-partitioned prow_job_run_prow_pull_requests table left over from the partition swap",
     "concurrent": true,
-    "query": "DROP TABLE IF EXISTS prow_job_run_prow_pull_requests_old CASCADE;"
+    "query": "DROP TABLE IF EXISTS prow_job_run_prow_pull_requests_old;"
   }
 ]
