@@ -1,0 +1,38 @@
+{
+  "name": "prowjobruns_finalize",
+  "description": "Finalize phase: Swap tables and rename partitions for prow_job_runs, prow_job_run_annotations, and prow_job_run_prow_pull_requests",
+  "steps": [
+    {
+      "name": "discover_releases",
+      "type": "query_releases",
+      "query": "SELECT DISTINCT release FROM prow_jobs ORDER BY release",
+      "store_as": "releases"
+    },
+    {
+      "name": "swap_tables",
+      "type": "sql_specs",
+      "spec_file": "config/specs/prowjobruns/008_swap_partitioned_tables.json"
+    },
+    {
+      "name": "rename_prow_job_runs_partitions",
+      "type": "rename_partitions",
+      "table": "prow_job_runs",
+      "releases_from": "releases",
+      "use_partman_format": true
+    },
+    {
+      "name": "rename_prow_job_run_annotations_partitions",
+      "type": "rename_partitions",
+      "table": "prow_job_run_annotations",
+      "releases_from": "releases",
+      "use_partman_format": true
+    },
+    {
+      "name": "rename_prow_job_run_prow_pull_requests_partitions",
+      "type": "rename_partitions",
+      "table": "prow_job_run_prow_pull_requests",
+      "releases_from": "releases",
+      "use_partman_format": true
+    }
+  ]
+}

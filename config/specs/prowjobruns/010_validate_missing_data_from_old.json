@@ -1,0 +1,23 @@
+[
+  {
+    "name": "validate_prow_job_runs_missing_from_old",
+    "description": "Count prow_job_runs rows from the old table that are missing from the partitioned production table for the last 120 days. Returns only days with missing rows.",
+    "concurrent": true,
+    "resultType": "query",
+    "query": "SELECT DATE(o.timestamp) AS day, COUNT(*) AS missing_count FROM prow_job_runs_old o LEFT JOIN prow_job_runs n ON o.id = n.id AND o.prow_job_release = n.prow_job_release AND o.timestamp = n.timestamp WHERE o.timestamp >= NOW() - INTERVAL '120 days' AND n.id IS NULL GROUP BY 1 ORDER BY 1"
+  },
+  {
+    "name": "validate_prow_job_run_annotations_missing_from_old",
+    "description": "Count prow_job_run_annotations rows from the old table that are missing from the partitioned production table for the last 120 days. Returns only days with missing rows.",
+    "concurrent": true,
+    "resultType": "query",
+    "query": "SELECT DATE(o.prow_job_run_timestamp) AS day, COUNT(*) AS missing_count FROM prow_job_run_annotations_old o LEFT JOIN prow_job_run_annotations n ON o.id = n.id AND o.prow_job_run_release = n.prow_job_run_release AND o.prow_job_run_timestamp = n.prow_job_run_timestamp WHERE o.prow_job_run_timestamp >= NOW() - INTERVAL '120 days' AND n.id IS NULL GROUP BY 1 ORDER BY 1"
+  },
+  {
+    "name": "validate_prow_job_run_prow_pull_requests_missing_from_old",
+    "description": "Count prow_job_run_prow_pull_requests rows from the old table that are missing from the partitioned production table for the last 120 days. Returns only days with missing rows.",
+    "concurrent": true,
+    "resultType": "query",
+    "query": "SELECT DATE(o.prow_job_run_timestamp) AS day, COUNT(*) AS missing_count FROM prow_job_run_prow_pull_requests_old o LEFT JOIN prow_job_run_prow_pull_requests n ON o.prow_job_run_id = n.prow_job_run_id AND o.prow_pull_request_id = n.prow_pull_request_id AND o.prow_job_run_release = n.prow_job_run_release AND o.prow_job_run_timestamp = n.prow_job_run_timestamp WHERE o.prow_job_run_timestamp >= NOW() - INTERVAL '120 days' AND n.prow_job_run_id IS NULL GROUP BY 1 ORDER BY 1"
+  }
+]

@@ -1,0 +1,9 @@
+[
+  {
+    "name": "backfill_prow_job_run_id_map",
+    "description": "Backfill prow_job_run_id_map from existing prow_job_runs rows",
+    "concurrent": true,
+    "batchSize": 500000,
+    "query": "WITH batch AS (\n\t\t\t\tSELECT r.id, r.prow_job_release, r.\"timestamp\"\n\t\t\t\tFROM prow_job_runs r\n\t\t\t\tLEFT JOIN prow_job_run_id_map m ON m.id = r.id\n\t\t\t\tWHERE m.id IS NULL\n\t\t\t\tAND r.prow_job_release IS NOT NULL AND r.prow_job_release <> ''\n\t\t\t\tLIMIT $1\n\t\t\t)\n\t\t\tINSERT INTO prow_job_run_id_map (id, prow_job_release, \"timestamp\")\n\t\t\tSELECT id, prow_job_release, \"timestamp\"\n\t\t\tFROM batch\n\t\t\tON CONFLICT (id) DO NOTHING"
+  }
+]
